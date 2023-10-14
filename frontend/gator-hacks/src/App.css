@@ -1,0 +1,18 @@
+.main-input {
+    margin-left: 8vw;
+}
+
+.autofill-rec {
+    margin-top: 62vh;
+    margin-left: 8vw;
+}
+
+.app-container {
+  display: flex;
+  display: inline-block;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column; /* Keep the original order of the messages */
+}
