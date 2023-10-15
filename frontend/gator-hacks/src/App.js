@@ -14,7 +14,7 @@ import './components/ShadowMessage.css'
 import ShadowMessage from './components/ShadowMessage';
 import InputBox from './components/InputBox';
 import LinkBoxContainer from './components/LinkBoxContainer';
-import LinkBox from './components/LinkBox';
+import LinkBox from './components/LinkBox'
 
 // Animation State Definitions
 const AnimationStates = {
@@ -29,7 +29,7 @@ function getRandomAnimationState() {
   const states = Object.values(AnimationStates);
   let state = states[Math.floor(Math.random() * states.length)];
 
-  while (state === lastAnimationState) {
+  while (state == lastAnimationState) {
     state = states[Math.floor(Math.random() * states.length)];
   }
   
@@ -39,7 +39,10 @@ function getRandomAnimationState() {
 
 
 function App() {
+
+
   // VERIZY CODE STARTS *******
+
   const Verizy = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
       setAnimationState(state) {
@@ -206,8 +209,8 @@ function App() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="200"
-      height="200"
+      width="250"
+      height="250"
       fill="none"
       viewBox="0 0 266 306"
     >
@@ -231,51 +234,48 @@ function App() {
 
   // ref pointing to Verizy component for animation
   const verizyRef = useRef();
+
+
+
   // VERIZY CODE ENDS ******
 
   // Establishes the useState "list" that holds values
-  const [terms, setTerms] = useState([]);
   const [recs,setRecs] = useState([]);
-  const [messages, setMessages] = useState([]/*[
-
+  const [messages, setMessages] = useState(
+    [
     { sentBy: 'app', text: 'Follow up Welcome Question' },  // Default starting messages
     { sentBy: 'app', text: 'Example Welcome Message' },
-  ]*/);
+    ]
+  );
+  
   var prev_message = 'test'
   const handleNewMessage = async (message) => {
     if(message.sentBy ==='app'){ //handles messages sent by the APP
     
     await setRecs([...message.recs])
     console.log("recs: " + message.recs)
-    await setTerms([...message.terms])
-    console.log("terms: " + message.terms)
     }
     //Handles messages sent by the APP and the USER.
     await setMessages([...messages,prev_message, message]);
     console.log("WI'm being called!" + messages.length + " with " + message.text)
-    //for(var i = 0; i < messages.length; i++){
-      //console.log(i + " ==> " + messages[i].text)
-    //}
     prev_message = message
     return 1
   };
 
-  
   // Handles automatically scrolling down in chat
   const chatContainerRef = useRef(null);
 
- useEffect(() => {
+
+  useEffect(() => {
 
     // Can be used to manually run VERIZY animation button:
     verizyRef.current.setAnimationState(getRandomAnimationState());
-    
 
     // Scroll to the bottom of the chat container whenever messages change
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]); // Trigger the scroll whenever messages change
-
 
 
   // Note: the useState magic in the "wrapper" div
@@ -289,23 +289,24 @@ function App() {
             <ShadowMessage key={index} sentBy={message.sentBy} text={message.text} />
           ))}
         </div>
+
         <div className="input-box">
-          
-          <InputBox handleNewMessage={handleNewMessage}/>
-          
-        </div>
-      </div>
-      <div className="move-verizy" >
+          <div className="move-verizy" >
             <Verizy ref={verizyRef}/>
           </div>
+          <div classname="center">
+            <InputBox handleNewMessage={handleNewMessage}/>
+          </div>
+        </div>
+      </div>
+
       <div className="link-box">
       {recs.length > 0 && recs.map(rec => (
-
       <LinkBox text={rec.name} price={rec.price} desc={rec.description}/>
-      
     ))}
     </div>
-  </div>
+
+    </div>
   );
 }
 

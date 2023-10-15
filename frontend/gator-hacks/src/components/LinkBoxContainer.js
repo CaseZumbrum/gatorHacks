@@ -1,7 +1,11 @@
+
+
 import React, { useEffect,useState } from 'react';
 import '../App.css';
 import LinkBox from './LinkBox';
 import axios from 'axios'
+
+
 var rec_prods = []
 const LinkBoxContainer = () => {
 
@@ -9,7 +13,7 @@ const LinkBoxContainer = () => {
     useEffect(() => {
         axios.post('http://127.0.0.1:5000', {
         source: "react",
-        message: "can you tell me about different TVs?"
+        message: "can you tell me about different phone data plans?"
     }).then(response => {
         rec_prods = JSON.parse(response.data.message.content).recommended_products
         console.log(JSON.parse(response.data.message.content).recommended_products[0].description)
@@ -25,7 +29,11 @@ const LinkBoxContainer = () => {
       ))}
         </>
     );
+
+
     /*
+    MYSTERIOUS JUSTIN/CASE COMMENTS
+
     const [links,setLinks] = useState([]);
     useEffect(() => {
         console.log("hiya budddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
@@ -55,6 +63,9 @@ const LinkBoxContainer = () => {
        </div>
 );
 */
+
+
+    
 };
 
 export default LinkBoxContainer

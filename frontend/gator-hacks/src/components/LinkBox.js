@@ -8,11 +8,11 @@ const LinkBox = ({text, price, desc}) => {
       padding: "15px",
       backgroundColor: ('#e94f4a'),
       width: "max-content",
-      maxWidth: "100%", // will have to be set based on chat-box container
+      maxWidth: "100%", 
       boxShadow: "0px 4px 4px #00000040",
-      //display: "flex", Figure this shit out later.
-      //alignItems: "flex-start",
-      marginBottom: "20px",
+      marginTop: "2vh",
+      marginLeft: "2vh",
+      textAlign: 'center',
     }
 
     const verizonLink = "https://www.verizon.com/onesearch/search?q="+text.split(' ').join('+')+"&ES=shop&src=wireless"
@@ -24,7 +24,7 @@ const LinkBox = ({text, price, desc}) => {
     if(desc === undefined){
       desc = ""
     }
-  return (      // HAD EXTRA DIV HERE BEFORE
+  return (
     
     <div style={MessageStyle}>
       <h3>{text}</h3>
