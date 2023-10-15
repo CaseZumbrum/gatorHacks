@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './ShadowMessage.css'
 
 
@@ -21,6 +21,9 @@ const ShadowMessage = ({sentBy, text}) => {
     display: "flex",
     alignItems: "flex-start",
     marginBottom: "20px",
+    
+    wordBreak: 'break-word',  // Allow text to break between words
+    overflowWrap: 'break-word',  // Allow text to wrap within words
     }
 
   return ( 

@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 
-
+var userInput_real = ''
 const InputBox = ({ handleNewMessage }) => {
 
     const [userInput, setUserInput] = useState('');
+    const [terms, setTerms] = useState([]);
 
     useEffect(() => {
       console.log('User Input has been updated: ' + userInput);
+      userInput_real = userInput;
+      console.log("real: " + userInput_real)
     }, [userInput]);
 
     // Handles when the user submits
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
-        console.log("User Input: " + event.target.value)
     };
     
     const handleKeyPress = (event) => {
@@ -22,31 +24,47 @@ const InputBox = ({ handleNewMessage }) => {
       }
     };
 
-    const sendToBackend = async () => {
-        // Handles rendering user message immediately
-        console.log("My message:" + userInput)
-        await handleNewMessage({
-            sentBy: 'user',
-            text: userInput,
-        });
+    const sendToBackend = async (keyTerm) => {
+      let message_to_send = ''
 
-        axios.post('http://127.0.0.1:5000', {
-        source: "react",
-        message: userInput
-    }).then (async response => {
-      //Handles what the AI returns
-        var message = JSON.parse(response.data.message.content).message //AI message.
-        console.log("AI message:" + message)
+      // Handles rendering user message immediately
+      console.log("Key Term: ", keyTerm)
+      if(keyTerm != null){
         await handleNewMessage({
-          sentBy: 'app',
-          text: message,
-          recs: JSON.parse(response.data.message.content).recommended_products,
-          followups: JSON.parse(response.data.message.content).followup_questions,
-          terms: JSON.parse(response.data.message.content).key_terms
-      })
-            
-        });
-        setUserInput('')  // Clears the previous input
+          sentBy: 'user',
+          text: 'Tell me more about ' + keyTerm,
+      });
+      message_to_send = 'Tell me more about ' + keyTerm
+      }else{  // When using the text input
+        await handleNewMessage({
+          sentBy: 'user',
+          text: userInput,
+      });
+      message_to_send = userInput
+      }
+      
+
+      axios.post('http://127.0.0.1:5000', {
+      source: "react",
+      message: message_to_send
+  }).then (async response => {
+    
+    //Handles what the AI returns
+      var message = JSON.parse(response.data.message.content).message //AI message.
+      setTerms(JSON.parse(response.data.message.content).key_terms)
+      
+      // console.log("AI message:" + message)   For testing
+
+      await handleNewMessage({
+        sentBy: 'app',
+        text: message,
+        recs: JSON.parse(response.data.message.content).recommended_products,
+        followups: JSON.parse(response.data.message.content).followup_questions,
+        terms: JSON.parse(response.data.message.content).key_terms
+    })
+          
+      });
+      setUserInput('')  // Clears the previous input
 
 
 
@@ -66,6 +84,7 @@ const InputBox = ({ handleNewMessage }) => {
   // Making a pretty-looking input box
 
   const inputStyle = {
+    backgroundColor: '#fffff',
     backgroundColor: 'white',
     border: '3px solid transparent',
     boxShadow: "0px 4px 4px #00000040",
@@ -74,7 +93,7 @@ const InputBox = ({ handleNewMessage }) => {
     alignItems: "flex-start",
     position: 'fixed',
 
-    marginLeft: '4vw',
+    marginLeft: '22vw',
     borderRadius: '10vw',
     padding: "2vh",
     width: "40vw",
@@ -82,15 +101,16 @@ const InputBox = ({ handleNewMessage }) => {
   };
 
   const buttonStyle = {
-    backgroundColor: 'white',
-    border: '3px solid transparent',
-    boxShadow: "0px 4px 4px #00000040",
+    backgroundColor: 'transparent',
+    border: 'transparent',
     position: 'fixed',
 
     width: '5vw',
     height: '3.5vw',
     borderRadius: '20px',
-    marginLeft: '46vw',
+    marginLeft: '56.4vw',
+    marginTop: '0.1vw',
+    fontSize: '30px', // font size for emoji
   }
 
   const keyTermStyle1 = {
@@ -102,7 +122,7 @@ const InputBox = ({ handleNewMessage }) => {
     width: '12vw',
     height: '4vw',
     borderRadius: '20px',
-    marginLeft: '4vw',
+    marginLeft: '22vw',
     marginBottom: '1vw'
   }
 
@@ -115,7 +135,7 @@ const InputBox = ({ handleNewMessage }) => {
     width: '12vw',
     height: '4vw',
     borderRadius: '20px',
-    marginLeft: '17vw',
+    marginLeft: '35vw',
     marginBottom: '1vw'
   }
 
@@ -128,7 +148,7 @@ const InputBox = ({ handleNewMessage }) => {
     width: '12vw',
     height: '4vw',
     borderRadius: '20px',
-    marginLeft: '30vw',
+    marginLeft: '48vw',
     marginBottom: '1vw'
   }
 
@@ -136,7 +156,6 @@ const InputBox = ({ handleNewMessage }) => {
   return (
     <div>
     <div class="row">
-      
       <input
         type="text"
         value={userInput}
@@ -150,37 +169,41 @@ const InputBox = ({ handleNewMessage }) => {
       style={buttonStyle}
       className={"#fffff"} // send-button
       onClick={() => sendToBackend(userInput)}>
-      ✉️</button>
-      
-        
+      🔍</button>
+
     </div>
       <br></br>
       <br></br>
       <br></br>
     
-    <button
+      <button // key term button 1
         style={keyTermStyle1}
         className={"#fffff"} // send-button
-        onClick={() => sendToBackend({sentBy: "user", text:"poopity poop"})}>
-        Butot2382n 383819Sdhhd1</button>
-    <button
+        onClick={async () => {
+          sendToBackend(terms[0])
+          console.log(terms[0])
+        }
+        }>
+        {terms[0]}</button>
+        <button // key term button 2
         style={keyTermStyle2}
         className={"#fffff"} // send-button
-        onClick={() => sendToBackend({sentBy: "user", text:"poopity poop"})}>
-        Butotn 2</button>
-      <button
+        onClick={async () => {
+          sendToBackend(terms[1])
+        }
+        }>
+        {terms[1]}</button>
+      <button // key term button 3
         style={keyTermStyle3}
         className={"#fffff"} // send-button
         onClick={async () => {
-          setUserInput('A New Request')
-          console.log('What User Input should be: ' + userInput)
-          await sendToBackend()
-          console.log("Sent to the backend.")
+          sendToBackend(terms[2])
         }
         }>
-        Button 3</button>
+        {terms[2]}</button>
     </div>
-    
+
+
   );
 };
 
