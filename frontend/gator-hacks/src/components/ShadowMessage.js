@@ -4,27 +4,26 @@ import './ShadowMessage.css'
 
 const ShadowMessage = ({sentBy, text}) => {
 
-    let color = '';
-
-    color = (sentBy === "user") ? '#ffffff' : '#e94f4a';
+    let color = (sentBy === "user") ? '#ffffff' : '#e94f4a';
+    let marginLeft = (sentBy === "user") ? 'auto' : '0';
+    let borderRadius = (sentBy === "user") ? '20px 20px 0px 20px': '20px 20px 20px 0'
 
   const MessageStyle = {
-      
+
     backgroundColor: color,
-    borderRadius: '20px',
-    boxShadow: '0px 4px 4px #00000040',
-    left: '0',
-    //position: 'relative',   // Flex box issue
-    //top: '0',
-    padding: '1vw',
-    display: 'inline-block',
-    maxWidth: '30%',
-    wordWrap: 'break-word',
-    //marginTop: '1vw'
-    marginBottom: '1vw'
+    marginLeft: marginLeft,
+    borderRadius: borderRadius,
+
+    padding: "15px",
+    width: "max-content",
+    maxWidth: "calc(60% - 50px)",
+    boxShadow: "0px 4px 4px #00000040",
+    display: "flex",
+    alignItems: "flex-start",
+    marginBottom: "20px",
     }
 
-  return (      // HAD EXTRA DIV HERE BEFORE
+  return ( 
     <div style={MessageStyle}>
         {text}
     </div>
