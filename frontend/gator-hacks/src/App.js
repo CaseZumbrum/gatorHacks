@@ -402,7 +402,6 @@ function App() {
     }
     //Handles messages sent by the APP and the USER.
     await setMessages([...messages,prev_message, message]);
-    console.log("WI'm being called!" + messages.length + " with " + message.text)
     prev_message = message
     return 1
   };
