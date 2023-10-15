@@ -7,10 +7,10 @@ const LinkBox = ({text, price, desc}) => {
       borderRadius: "20px 20px",
       padding: "15px",
       backgroundColor: ('#e94f4a'),
-      width: "max-content",
+      width: "20vw",
       maxWidth: "100%", 
       boxShadow: "0px 4px 4px #00000040",
-      marginTop: "2vh",
+      marginBottom: "2vh",
       marginLeft: "2vh",
       textAlign: 'center',
     }
