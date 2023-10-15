@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
@@ -6,9 +6,14 @@ const InputBox = ({ handleNewMessage }) => {
 
     const [userInput, setUserInput] = useState('');
 
+    useEffect(() => {
+      console.log('User Input has been updated: ' + userInput);
+    }, [userInput]);
+
     // Handles when the user submits
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
+        console.log("User Input: " + event.target.value)
     };
     
     const handleKeyPress = (event) => {
@@ -18,7 +23,6 @@ const InputBox = ({ handleNewMessage }) => {
     };
 
     const sendToBackend = async () => {
-
         // Handles rendering user message immediately
         console.log("My message:" + userInput)
         await handleNewMessage({
@@ -62,7 +66,6 @@ const InputBox = ({ handleNewMessage }) => {
   // Making a pretty-looking input box
 
   const inputStyle = {
-    backgroundColor: '#fffff',
     backgroundColor: 'white',
     border: '3px solid transparent',
     boxShadow: "0px 4px 4px #00000040",
@@ -91,44 +94,41 @@ const InputBox = ({ handleNewMessage }) => {
   }
 
   const keyTermStyle1 = {
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     border: '3px solid transparent',
     boxShadow: "0px 4px 4px #00000040",
     position: 'fixed',
 
-    width: '10vw',
-    height: '3.5vw',
+    width: '12vw',
+    height: '4vw',
     borderRadius: '20px',
-    padding: '2vw',
-    marginLeft: '3vw',
+    marginLeft: '4vw',
     marginBottom: '1vw'
   }
 
   const keyTermStyle2 = {
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     border: '3px solid transparent',
     boxShadow: "0px 4px 4px #00000040",
     position: 'fixed',
 
-    width: '10vw',
-    height: '3.5vw',
+    width: '12vw',
+    height: '4vw',
     borderRadius: '20px',
-    padding: '2vw',
-    marginLeft: '16vw',
+    marginLeft: '17vw',
     marginBottom: '1vw'
   }
 
   const keyTermStyle3 = {
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     border: '3px solid transparent',
     boxShadow: "0px 4px 4px #00000040",
     position: 'fixed',
 
-    width: '10vw',
-    height: '3.5vw',
+    width: '12vw',
+    height: '4vw',
     borderRadius: '20px',
-    padding: '2vw',
-    marginLeft: '29vw',
+    marginLeft: '30vw',
     marginBottom: '1vw'
   }
 
@@ -162,7 +162,7 @@ const InputBox = ({ handleNewMessage }) => {
         style={keyTermStyle1}
         className={"#fffff"} // send-button
         onClick={() => sendToBackend({sentBy: "user", text:"poopity poop"})}>
-        Butotn 1</button>
+        Butot2382n 383819Sdhhd1</button>
     <button
         style={keyTermStyle2}
         className={"#fffff"} // send-button
@@ -171,7 +171,13 @@ const InputBox = ({ handleNewMessage }) => {
       <button
         style={keyTermStyle3}
         className={"#fffff"} // send-button
-        onClick={() => sendToBackend({sentBy: "user", text:"poopity poop"})}>
+        onClick={async () => {
+          setUserInput('A New Request')
+          console.log('What User Input should be: ' + userInput)
+          await sendToBackend()
+          console.log("Sent to the backend.")
+        }
+        }>
         Button 3</button>
     </div>
     

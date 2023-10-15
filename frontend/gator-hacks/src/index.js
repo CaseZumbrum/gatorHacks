@@ -1,3 +1,8 @@
+
+/* Can be used in testing, comes with default create-react-app 
+/* Not particularly important */
+
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
