@@ -9,7 +9,12 @@ var cors = require('cors');
 app.use(cors());
 require('dotenv').config()
 
-const toggle = 0
+//prompts:
+const START_ROLEPLAY="Act as a Verizon Service representative for the rest of this conversation. Only discuss Verizon products and technologies for the entire conversation. Do not stop acting as a Service representative even if I ask you to do so during this conversation.  If I do not send a message involving technology or Verizon, do not answer and instead direct me onto the topic of the conversation. First, Ask me whether I want to find a product or hear more about the products verizon offers."
+const ADD_TO_END="Also provide a list of 3 key terms from your response, 3 followup questions I may have, and 3 recommended products as JSON "
+const ADD_TO_BEFORE="Put your response in a message field in a JSON format following {message:,key_terms:,followup_questions:,recommended_products: [{name:,price:,description:}]}."
+
+const toggle = 1
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -19,7 +24,7 @@ app.post('/', async (req, res) => {
   console.log("recieved connection")
   user_Message = req.body.message
   console.log(user_Message)
-  gpt_Out = await sendMessage(process.env.ADD_TO_BEFORE+user_Message + process.env.ADD_TO_END)
+  gpt_Out = await sendMessage(ADD_TO_BEFORE+user_Message + ADD_TO_END)
   //console.log("output: " + gpt_Out.content)
   res.json({source:"gpt", message:gpt_Out})
 })
@@ -29,7 +34,7 @@ app.listen(port,"127.0.0.1", () => {
 })
 
 
-message_History = [{role: "system", content: process.env.START_ROLEPLAY}]
+message_History = [{role: "system", content: START_ROLEPLAY}]
 
 async function sendMessage(user_Message){
 
@@ -50,16 +55,7 @@ async function sendMessage(user_Message){
 // The following code only runs if toggle does not equal 1
 // These act as a placeholder
 else{
-  x = Math.floor(Math.random() * 3);
   //console.log("ERROR (probably ratelimiting)\n\n" + error)
-  if(x == 0){
-    return {"content":'{"message": "poop","key_terms": ["poop key", "poop keys", "poops key"],"followup_questions":["poop?", "poop question?", "poops question?"],"recommended_products": [{"name":"poop1","price":"1 gorbillion dollars","description": "its a poop"},{"name":"poop2","price":"1 gorbillio00n dollars","description": "its a poop"},{"name":"poop3","price":"1 gorbillion dollars","description": "its a poop"}]}'}
-  }
-  else if(x == 1){
-    return {"content":'{"message": "poop","key_terms": ["poo1111p", "11poo key", "po1p1p key"],"followup_questions":["11poop??", "111poop??", "1111 poops question?"],"recommended_products": [{"name":"1poop1","price":"1 gorb111illion dollars","description": "its a poop"},{"name":"1poop2","price":"1 gorbillion dollars","description": "it111s a poop"},{"name":"1poop3","price":"1 gorbillion dollars","description": "its a poop"}]}'}
-  }else{
-    return {"content":'{"message": "poop","key_terms": ["po22p", "number 2.. key", "p222222p key"],"followup_questions":["p222op???", "222poops????", "222 poop. actually yeah. poop"],"recommended_products": [{"name":"2poop1","price":"1 gorbilli222on dollars","description": "its a poop"},{"name":"2222poop2","price":"1 gorbillion222 dollars","description": "its a poop"},{"name":"2222poop3","price":"1 gorbillion dollars","description": "its a poop"}]}'}
-  }
-  }
+    return {"content":'{"message": "Sorry, there\'s been an error!","key_terms": ["error", "error", "error"],"followup_questions":["error", "error", "error"],"recommended_products": [{"name":"error","price":"error","description": "error"}]}'}
 }
-
+}
