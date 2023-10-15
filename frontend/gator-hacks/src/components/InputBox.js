@@ -8,9 +8,7 @@ const InputBox = ({ handleNewMessage }) => {
     const [terms, setTerms] = useState([]);
 
     useEffect(() => {
-      console.log('User Input has been updated: ' + userInput);
       userInput_real = userInput;
-      console.log("real: " + userInput_real)
     }, [userInput]);
 
     // Handles when the user submits
@@ -28,7 +26,6 @@ const InputBox = ({ handleNewMessage }) => {
       let message_to_send = ''
 
       // Handles rendering user message immediately
-      console.log("Key Term: ", keyTerm)
       if(keyTerm != null){
         await handleNewMessage({
           sentBy: 'user',
