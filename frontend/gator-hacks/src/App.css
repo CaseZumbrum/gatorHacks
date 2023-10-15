@@ -1,26 +1,33 @@
 
 
 body {
-  background-color: gray;
+  background-color: #d2d2d2;
 }
 
 .chat-box {
-  width: 65%;
+  width: 53%;
   float: left;
   box-sizing: border-box;
+  margin-left: 3vw;
 }
 
 .link-box {
-  width: 35%;
+  width: 47%;
+  height: 100%;
   float: right;
   box-sizing: border-box;
+  align-items: center;
 }
 
 .input-box {
   width: 100%;
   float: left;
   margin-top: 5vh;
-  margin-left: 4vw;
+}
+
+/* Hides the scrollbar, but keeps functionality */
+.wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .wrapper {
@@ -30,3 +37,26 @@ body {
   overflow-y: scroll;
   height: 70vh;
 }
+
+.move-verizy {
+  position: absolute;
+  margin-top: -10vw;
+
+  display: "flex";
+  align-items: "flex-start";
+  position: 'fixed';
+
+  margin-left: '4vw';
+  padding: "2vh";
+  margin-bottom: "1vw";
+}
+
+
+/* "Chat with Verizy!" Header  
+.header {
+  text-align: center;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  width: 90%;
+  background-color: #e94f4a;
+} */
